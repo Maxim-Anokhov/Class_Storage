@@ -1,26 +1,16 @@
 class Storage {
-    constructor(names, storageType = "local") {
+    constructor(names, storageType) {
         this.name = names
-        this.storageType = storageType
-
+        this.storageType = window[!storageType ? "localStorage" : "sessionStorage"]
     }
     get() {
-        if (this.storageType === "local") {
-            console.log(this.name)
-            return JSON.parse(localStorage.getItem(this.name))
-        }
-        if (this.storageType === "session") {
-            console.log(thisMaxim)
-            return JSON.parse(sessionStorage.getItem(this.name))
-        }
+
+        return JSON.parse(this.storageType.getItem(this.name))
     }
     set() {
-        if (this.storageType === "local") {
-            return localStorage.setItem(this.name, JSON.stringify(this.name))
-        }
-        if (this.storageType === "session") {
-            return sessionStorage.setItem(this.name, JSON.stringify(this.name))
-        }
+
+        return this.storageType.setItem(this.name, JSON.stringify(this.name))
+
     }
     clear() {
         localStorage.setItem(this.name, JSON.stringify(null))
@@ -38,7 +28,7 @@ class Storage {
 }
 const names = new Storage("names");
 const Maxim = new Storage("Maxim");
-const Nastya = new Storage("Nastya");
+const Nastya = new Storage("Nastya", "sessionStorage");
 Nastya.set();
 Nastya.get()
 names.set();
